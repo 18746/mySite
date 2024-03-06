@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% if latest_question_list %}
+        <ul>
+            {% for question in latest_question_list %}
+                <!-- 硬编码 URL -->
+                <!-- <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li> -->
+
+                <!-- 硬编码 URL改为 通过name（detail），找到路径 -->
+                <!-- <li><a href="{% url 'detail' question.id %}">{{ question.question_text }}</a></li> -->
+
+                <!-- 通过【命名空间】获取准确路由 -->
+                <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No polls are available.</p>
+    {% endif %}
+</body>
+</html>

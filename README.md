@@ -32,7 +32,7 @@ python manage.py createsuperuser
 # http://127.0.0.1:8000/admin/ 进入管理员登录界面 
 ```
 
-### 
+### 数据库表模板及运用
 
 ```powershell
 # 给 polls 创建 生成数据库的脚本（0001_initial.py）

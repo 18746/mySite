@@ -25,7 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'polls',
+    'polls.apps.PollsConfig',
 ]
 
 # django的中间件

@@ -9,11 +9,12 @@ from django.db.models import F
 
 # Create your views here.
 
-# def index(request):
-#     return HttpResponse("Hello, world. You're at the polls index.")
-
+# 视图逻辑自定义
 # 展示所有问题
 def index(request):
+    # return HttpResponse("Hello, world. You're at the polls index.")
+
+
     latest_question_list = Question.objects.order_by("-pub_date")[:5]
     # 把读取到的数据返回页面
     # template = loader.get_template("polls/index.html")
@@ -26,12 +27,11 @@ def index(request):
     context = {"latest_question_list": latest_question_list}
     return render(request, "polls/index.html", context)
 
-
-# def detail(request, question_id):
-#     return HttpResponse("You're looking at question %s." % question_id)
-
 # 展示投票界面
 def detail(request, question_id):
+    # return HttpResponse("You're looking at question %s." % question_id)
+
+
     # 判断是否存在该 id，不存在 则展示404路径页面（Http404），存在 则展示对应id的投票结果
     # try:
     #     question = Question.objects.get(pk=question_id)
@@ -46,13 +46,15 @@ def detail(request, question_id):
 
 # 展示投票成功页面
 def results(request, question_id):
+    # question = get_object_or_404(Question, pk=question_id)
+    # response = "You're looking at the results of question <br>%s-\"%s\"."
+    # return HttpResponse(response % ( question.id, question.question_text, ))
+
     question = get_object_or_404(Question, pk=question_id)
-    response = "You're looking at the results of question <br>%s-\"%s\"."
-    return HttpResponse(response % ( question.id, question.question_text, ))
+    return render(request, "polls/results.html", {"question": question})
 
 # 用于投票的接口
-# 报错返回 提示信息到投票界面
-# 成功的话展示成功页面
+# 报错返回 提示信息到投票界面; 成功的话展示成功页面
 def vote(request, question_id):
     # return HttpResponse("You're voting on question %s." % question_id)
 
@@ -77,3 +79,23 @@ def vote(request, question_id):
         # user hits the Back button.
         return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
 
+
+
+from django.views import generic
+
+# 通用视图模式
+class IndexView(generic.ListView):
+    template_name = "polls/index.html"
+    context_object_name = "latest_question_list"
+
+    def get_queryset(self):
+        """Return the last five published questions."""
+        return Question.objects.order_by("-pub_date")[:5]
+
+class DetailView(generic.DetailView):
+    model = Question
+    template_name = "polls/detail.html"
+
+class ResultsView(generic.DetailView):
+    model = Question
+    template_name = "polls/results.html"

@@ -4,6 +4,7 @@ from django.contrib import admin
 
 # 向管理页面中加入投票应用
 # 用于 管理员或用户，修改该表
-from .models import Question
+from .models import Question, Choice
 
 admin.site.register(Question)
+admin.site.register(Choice)
